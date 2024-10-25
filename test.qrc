@@ -1,0 +1,28 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+   <file>images/blue-folder-open-document.svg</file>
+   <file>images/disk.svg</file>
+   <file>images/disk--pencil.svg</file>
+   <file>images/printer.svg</file>
+   <file>images/arrow-curve-180-left.png</file>
+   <file>images/arrow-curve.svg</file>
+   <file>images/scissors.svg</file>
+   <file>images/document-copy.svg</file>
+   <file>images/clipboard-paste-document-text.svg</file>
+   <file>images/selection-input.png</file>
+   <file>images/arrow-continue.png</file>
+   <file>images/edit-bold.png</file>
+   <file>images/edit-italic.png</file>
+   <file>images/edit-underline.png</file>
+   <file>images/edit-alignment.svg</file>
+   <file>images/edit-alignment-center.svg</file>
+   <file>images/edit-alignment-right.svg</file>
+   <file>images/edit-alignment-justify.svg</file>
+   <file>images/logo.png</file>
+   <file>images/logo.ico</file>
+   <file>fonts/mangal.ttf</file>
+   <file>fonts/ida-left-to-right-pre-release-0-9-1.otf</file>
+   <file>fonts/Shobhika-Bold.otf</file>
+   <file>fonts/Shobhika-Regular.otf</file>
+</qresource>
+</RCC>
