@@ -18,6 +18,8 @@
 #pyinstaller.exe --onefile --windowed wordprocessor.py
 #nyUrala neTvarksa A.clvej ovharaphiTa
 
+#check github update
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
