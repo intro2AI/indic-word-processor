@@ -191,21 +191,6 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.editor,2,0,20,11)
 
 
-        # Replace the editor with a new one
-        # new_editor = QTextEdit()  # Create a new QTextEdit instance
-        # _font = QFont('Shobhika') # apply font from the new language
-        # _font.setPointSize(18)
-        # new_editor.setFont(_font)
-        # # COPY TEXT FROM OLD EDITOR TO NEW EDITOR
-        # # Remove the old editor from the layout
-        # self.layout.removeWidget(self.editor)
-        # self.editor.deleteLater()  # Optional: deletes the old widget safely
-        # # Assign the new editor to self.editor
-        # self.editor = new_editor
-        # # Add the new editor to the layout
-        # self.layout.addWidget(self.editor,2,0,20,11)
-
-
         self.layout.addWidget(self.transliterated_text,23,0,2,11)
         self.layout.addWidget(self.label_trackAllKeys,25,0,2,11)
 
@@ -256,15 +241,6 @@ class MainWindow(QMainWindow):
         undo_action = QAction(QIcon(os.path.join(':/images/arrow-curve-180-left.png')), "Undo", self)
         undo_action.setStatusTip("Undo last change")
         
-
-
-        # # Disconnect old signal (optional)
-        # redo_action.triggered.disconnect()
-        # # Assign the new editor
-        # self.editor = new_editor
-        # # Connect the action to the new editor's redo slot
-        # redo_action.triggered.connect(self.editor.redo)
-
 
         edit_menu.addAction(undo_action)
 
@@ -325,18 +301,12 @@ class MainWindow(QMainWindow):
         format_toolbar.addWidget(self.fontsize_box)
         format_toolbar.addWidget(self.fonts_manager)
 
-        undo_action.triggered.connect(self.editor.undo)
-        redo_action.triggered.connect(self.editor.redo)
-        cut_action.triggered.connect(self.editor.cut)
-        copy_action.triggered.connect(self.editor.copy)
-        paste_action.triggered.connect(self.editor.paste)
-        select_action.triggered.connect(self.editor.selectAll)
+
 
         self.bold_action = QAction(QIcon(os.path.join(':/images/edit-bold.png')), "Bold", self)
         self.bold_action.setStatusTip("Bold")
         self.bold_action.setShortcut(QKeySequence.Bold)
         self.bold_action.setCheckable(True)
-        self.bold_action.toggled.connect(lambda x: self.editor.setFontWeight(QFont.Bold if x else QFont.Normal))
         format_toolbar.addAction(self.bold_action)
         format_menu.addAction(self.bold_action)
 
@@ -344,7 +314,6 @@ class MainWindow(QMainWindow):
         self.italic_action.setStatusTip("Italic")
         self.italic_action.setShortcut(QKeySequence.Italic)
         self.italic_action.setCheckable(True)
-        self.italic_action.toggled.connect(self.editor.setFontItalic)
         format_toolbar.addAction(self.italic_action)
         format_menu.addAction(self.italic_action)
 
@@ -352,7 +321,6 @@ class MainWindow(QMainWindow):
         self.underline_action.setStatusTip("Underline")
         self.underline_action.setShortcut(QKeySequence.Underline)
         self.underline_action.setCheckable(True)
-        self.underline_action.toggled.connect(self.editor.setFontUnderline)
         format_toolbar.addAction(self.underline_action)
         format_menu.addAction(self.underline_action)
 
@@ -361,28 +329,24 @@ class MainWindow(QMainWindow):
         self.alignl_action = QAction(QIcon(os.path.join(':/images/edit-alignment.svg')), "Align left", self)
         self.alignl_action.setStatusTip("Align text left")
         self.alignl_action.setCheckable(True)
-        self.alignl_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignLeft))
         format_toolbar.addAction(self.alignl_action)
         format_menu.addAction(self.alignl_action)
 
         self.alignc_action = QAction(QIcon(os.path.join(':/images/edit-alignment-center.svg')), "Align center", self)
         self.alignc_action.setStatusTip("Align text center")
         self.alignc_action.setCheckable(True)
-        self.alignc_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignCenter))
         format_toolbar.addAction(self.alignc_action)
         format_menu.addAction(self.alignc_action)
 
         self.alignr_action = QAction(QIcon(os.path.join(':/images/edit-alignment-right.svg')), "Align right", self)
         self.alignr_action.setStatusTip("Align text right")
         self.alignr_action.setCheckable(True)
-        self.alignr_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignRight))
         format_toolbar.addAction(self.alignr_action)
         format_menu.addAction(self.alignr_action)
 
         self.alignj_action = QAction(QIcon(os.path.join(':/images/edit-alignment-justify.svg')), "Justify", self)
         self.alignj_action.setStatusTip("Justify text")
         self.alignj_action.setCheckable(True)
-        self.alignj_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
         format_toolbar.addAction(self.alignj_action)
         format_menu.addAction(self.alignj_action)
 
@@ -394,6 +358,48 @@ class MainWindow(QMainWindow):
         format_group.addAction(self.alignj_action)
 
         format_menu.addSeparator()
+
+
+        # Replace the editor with a new one
+        # new_editor = QTextEdit()  # Create a new QTextEdit instance
+        # _font = QFont('Shobhika') # apply font from the new language
+        # _font.setPointSize(18)
+        # new_editor.setFont(_font)
+        # # COPY TEXT FROM OLD EDITOR TO NEW EDITOR
+        # # Remove the old editor from the layout
+        # self.layout.removeWidget(self.editor)
+        # self.editor.deleteLater()  # Optional: deletes the old widget safely
+        # # Assign the new editor to self.editor
+        # self.editor = new_editor
+        # # Add the new editor to the layout
+        # self.layout.addWidget(self.editor,2,0,20,11)
+
+
+
+        # # Disconnect old signal (optional)
+        # redo_action.triggered.disconnect()
+        # # Assign the new editor
+        # self.editor = new_editor
+        # # Connect the action to the new editor's redo slot
+        # redo_action.triggered.connect(self.editor.redo)
+
+        undo_action.triggered.connect(self.editor.undo)
+        redo_action.triggered.connect(self.editor.redo)
+        cut_action.triggered.connect(self.editor.cut)
+        copy_action.triggered.connect(self.editor.copy)
+        paste_action.triggered.connect(self.editor.paste)
+        select_action.triggered.connect(self.editor.selectAll)
+
+        self.bold_action.toggled.connect(lambda x: self.editor.setFontWeight(QFont.Bold if x else QFont.Normal))
+        self.italic_action.toggled.connect(self.editor.setFontItalic)
+        self.underline_action.toggled.connect(self.editor.setFontUnderline)
+        self.alignl_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignLeft))
+        self.alignc_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignCenter))
+        self.alignr_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignRight))
+        self.alignj_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
+
+
+
 
         self.hindi_button.setChecked(True)
         self.on_hindi_button_clicked()
@@ -423,9 +429,9 @@ class MainWindow(QMainWindow):
         self.special_char_window = RareCharacterWindow(self.editor)
         self.special_char_window.show()
 
-    def insert_special_character(self, char):
-        cursor = self.editor.textCursor()
-        cursor.insertText(char)
+    # def insert_special_character(self, char):
+    #     cursor = self.editor.textCursor()
+    #     cursor.insertText(char)
 
     def block_signals(self, objects, b):
         for o in objects:
@@ -552,11 +558,10 @@ class MainWindow(QMainWindow):
         self.editor.setLineWrapMode( 1 if self.editor.lineWrapMode() == 0 else 0 )
 
     def on_sanskrit_button_clicked(self):
+        #TODO change_editor()
         self.editor.english_bypass =False 
         print("Sanskrit button clicked")
         from mappings.mappings_v1 import C,V,v,misc
-
-        #TODO instead of changing the editor variables, change the editor itself, so that we easily change the rules too!
 
         self.editor.C = C #consonents
         self.editor.V = V #Independent Vowels
