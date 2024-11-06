@@ -238,41 +238,39 @@ class MainWindow(QMainWindow):
         self.addToolBar(edit_toolbar)
         edit_menu = self.menuBar().addMenu("&Edit")
 
-        undo_action = QAction(QIcon(os.path.join(':/images/arrow-curve-180-left.png')), "Undo", self)
-        undo_action.setStatusTip("Undo last change")
-        
+        self.undo_action = QAction(QIcon(os.path.join(':/images/arrow-curve-180-left.png')), "Undo", self)
+        self.undo_action.setStatusTip("Undo last change")
+        edit_menu.addAction(self.undo_action)
 
-        edit_menu.addAction(undo_action)
-
-        redo_action = QAction(QIcon(os.path.join(':/images/arrow-curve.svg')), "Redo", self)
-        redo_action.setStatusTip("Redo last change")
-        edit_toolbar.addAction(redo_action)
-        edit_menu.addAction(redo_action)
+        self.redo_action = QAction(QIcon(os.path.join(':/images/arrow-curve.svg')), "Redo", self)
+        self.redo_action.setStatusTip("Redo last change")
+        edit_toolbar.addAction(self.redo_action)
+        edit_menu.addAction(self.redo_action)
 
         edit_menu.addSeparator()
 
-        cut_action = QAction(QIcon(os.path.join(':/images/scissors.svg')), "Cut", self)
-        cut_action.setStatusTip("Cut selected text")
-        cut_action.setShortcut(QKeySequence.Cut)
-        edit_toolbar.addAction(cut_action)
-        edit_menu.addAction(cut_action)
+        self.cut_action = QAction(QIcon(os.path.join(':/images/scissors.svg')), "Cut", self)
+        self.cut_action.setStatusTip("Cut selected text")
+        self.cut_action.setShortcut(QKeySequence.Cut)
+        edit_toolbar.addAction(self.cut_action)
+        edit_menu.addAction(self.cut_action)
 
-        copy_action = QAction(QIcon(os.path.join(':/images/document-copy.svg')), "Copy", self)
-        copy_action.setStatusTip("Copy selected text")
-        cut_action.setShortcut(QKeySequence.Copy)
-        edit_toolbar.addAction(copy_action)
-        edit_menu.addAction(copy_action)
+        self.copy_action = QAction(QIcon(os.path.join(':/images/document-copy.svg')), "Copy", self)
+        self.copy_action.setStatusTip("Copy selected text")
+        self.copy_action.setShortcut(QKeySequence.Copy)
+        edit_toolbar.addAction(self.copy_action)
+        edit_menu.addAction(self.copy_action)
 
-        paste_action = QAction(QIcon(os.path.join(':/images/clipboard-paste-document-text.svg')), "Paste", self)
-        paste_action.setStatusTip("Paste from clipboard")
-        cut_action.setShortcut(QKeySequence.Paste)
-        edit_toolbar.addAction(paste_action)
-        edit_menu.addAction(paste_action)
+        self.paste_action = QAction(QIcon(os.path.join(':/images/clipboard-paste-document-text.svg')), "Paste", self)
+        self.paste_action.setStatusTip("Paste from clipboard")
+        self.paste_action.setShortcut(QKeySequence.Paste)
+        edit_toolbar.addAction(self.paste_action)
+        edit_menu.addAction(self.paste_action)
 
-        select_action = QAction(QIcon(os.path.join(':/images/selection-input.png')), "Select all", self)
-        select_action.setStatusTip("Select all text")
-        cut_action.setShortcut(QKeySequence.SelectAll)
-        edit_menu.addAction(select_action)
+        self.select_action = QAction(QIcon(os.path.join(':/images/selection-input.png')), "Select all", self)
+        self.select_action.setStatusTip("Select all text")
+        self.select_action.setShortcut(QKeySequence.SelectAll)
+        edit_menu.addAction(self.select_action)
 
         edit_menu.addSeparator()
 
@@ -383,24 +381,6 @@ class MainWindow(QMainWindow):
         # # Connect the action to the new editor's redo slot
         # redo_action.triggered.connect(self.editor.redo)
 
-        undo_action.triggered.connect(self.editor.undo)
-        redo_action.triggered.connect(self.editor.redo)
-        cut_action.triggered.connect(self.editor.cut)
-        copy_action.triggered.connect(self.editor.copy)
-        paste_action.triggered.connect(self.editor.paste)
-        select_action.triggered.connect(self.editor.selectAll)
-
-        self.bold_action.toggled.connect(lambda x: self.editor.setFontWeight(QFont.Bold if x else QFont.Normal))
-        self.italic_action.toggled.connect(self.editor.setFontItalic)
-        self.underline_action.toggled.connect(self.editor.setFontUnderline)
-        self.alignl_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignLeft))
-        self.alignc_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignCenter))
-        self.alignr_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignRight))
-        self.alignj_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
-
-
-
-
         self.hindi_button.setChecked(True)
         self.on_hindi_button_clicked()
 
@@ -420,6 +400,65 @@ class MainWindow(QMainWindow):
         #self.update_format()
         self.update_title()
         self.show()
+
+
+    def swapTextEdit(self,language):
+            if language == 'Indus':
+                new_editor = TextEdit_Indus(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont('Ida-Left-To-Right') # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+                #TODO Transfer text from old text edit to new text edit
+
+
+            self.layout.removeWidget(self.editor)
+            self.editor.deleteLater()  # Optional: deletes the old widget safely
+            self.editor = new_editor
+            self.layout.addWidget(self.editor,2,0,20,11)
+
+
+
+            self.undo_action.triggered.disconnect()
+            self.undo_action.triggered.connect(self.editor.undo)
+
+            self.redo_action.triggered.disconnect()
+            self.redo_action.triggered.connect(self.editor.redo)
+
+            self.cut_action.triggered.disconnect()
+            self.cut_action.triggered.connect(self.editor.cut)
+
+            self.copy_action.triggered.disconnect()
+            self.copy_action.triggered.connect(self.editor.copy)
+
+            self.paste_action.triggered.disconnect()
+            self.paste_action.triggered.connect(self.editor.paste)
+            
+            self.select_action.triggered.disconnect()
+            self.select_action.triggered.connect(self.editor.selectAll)
+
+            self.bold_action.triggered.disconnect()
+            self.bold_action.toggled.connect(lambda x: self.editor.setFontWeight(QFont.Bold if x else QFont.Normal))
+
+            self.italic_action.triggered.disconnect()
+            self.italic_action.toggled.connect(self.editor.setFontItalic)
+
+            self.underline_action.triggered.disconnect()
+            self.underline_action.toggled.connect(self.editor.setFontUnderline)
+
+            self.alignl_action.triggered.disconnect()
+            self.alignl_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignLeft))
+
+            self.alignc_action.triggered.disconnect()
+            self.alignc_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignCenter))
+
+            self.alignr_action.triggered.disconnect()
+            self.alignr_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignRight))
+
+            self.alignj_action.triggered.disconnect()
+            self.alignj_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
+
 
     def open_vedic_character_window(self):
         self.special_char_window = VedicCharacterWindow(self.editor)
@@ -658,6 +697,8 @@ class MainWindow(QMainWindow):
 
 
     def on_indus_button_clicked(self):
+        self.swapTextEdit('Indus')
+
         self.editor.english_bypass =False
         print("Indus button clicked")
         from mappings.mappings_indus import C,V,v,misc
