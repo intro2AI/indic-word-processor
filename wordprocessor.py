@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
         self.transliterated_text.setFont(_font)
         
         #initialize Hindi Text Edit
-        self.editor = TextEdit(self.label_trackAllKeys)
+        self.editor = TextEdit_Hindi(self.label_trackAllKeys)
         _font = QFont('Shobhika')
         _font.setPointSize(18)
         self.editor.setFont(_font)
@@ -120,6 +120,7 @@ class MainWindow(QMainWindow):
         self.combobox.addItem("ISO")
         self.combobox.addItem("SLP1")
         self.combobox.addItem("Velthuis")
+        self.combobox.addItem("HK")
         # Connect the selection change event to a function
         self.combobox.currentIndexChanged.connect(self.selectionChanged)
 
@@ -357,30 +358,6 @@ class MainWindow(QMainWindow):
 
         format_menu.addSeparator()
 
-
-        # Replace the editor with a new one
-        # new_editor = QTextEdit()  # Create a new QTextEdit instance
-        # _font = QFont('Shobhika') # apply font from the new language
-        # _font.setPointSize(18)
-        # new_editor.setFont(_font)
-        # # COPY TEXT FROM OLD EDITOR TO NEW EDITOR
-        # # Remove the old editor from the layout
-        # self.layout.removeWidget(self.editor)
-        # self.editor.deleteLater()  # Optional: deletes the old widget safely
-        # # Assign the new editor to self.editor
-        # self.editor = new_editor
-        # # Add the new editor to the layout
-        # self.layout.addWidget(self.editor,2,0,20,11)
-
-
-
-        # # Disconnect old signal (optional)
-        # redo_action.triggered.disconnect()
-        # # Assign the new editor
-        # self.editor = new_editor
-        # # Connect the action to the new editor's redo slot
-        # redo_action.triggered.connect(self.editor.redo)
-
         self.hindi_button.setChecked(True)
         self.on_hindi_button_clicked()
 
@@ -403,6 +380,7 @@ class MainWindow(QMainWindow):
 
 
     def swapTextEdit(self,language):
+
             if language == 'Indus':
                 new_editor = TextEdit_Indus(self.label_trackAllKeys)
                 #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
@@ -410,15 +388,82 @@ class MainWindow(QMainWindow):
                 
                 _font.setPointSize(self.current_font_size)
                 new_editor.setFont(_font)
-                #TODO Transfer text from old text edit to new text edit
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
+                
+            if language == 'Hindi':
+                new_editor = TextEdit_Hindi(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont('Shobhika') # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
 
 
-            self.layout.removeWidget(self.editor)
-            self.editor.deleteLater()  # Optional: deletes the old widget safely
+            if language == 'Marathi':
+                new_editor = TextEdit_Marathi(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont('Shobhika') # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
+
+
+            if language == 'Sanskrit':
+                new_editor = TextEdit_Sanskrit(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont('Shobhika') # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
+  
+                
+            if language == 'Vedic':
+                new_editor = TextEdit_Sanskrit(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont('Shobhika') # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
+
+
+
+            #new_editor.setHtml(html_content)
+            text = self.strip_font_styles(html_content)
+            new_editor.document().setHtml(text)
+                
+
+            # Replace old editor with new editor in layout
+            old_editor_parent = old_editor.parent()
+            layout = old_editor_parent.layout()
+            layout.replaceWidget(old_editor, new_editor)
+            # Clean up old editor
+            old_editor.deleteLater()
+            # Store reference to new editor if needed
             self.editor = new_editor
-            self.layout.addWidget(self.editor,2,0,20,11)
-
-
 
             self.undo_action.triggered.disconnect()
             self.undo_action.triggered.connect(self.editor.undo)
@@ -438,13 +483,11 @@ class MainWindow(QMainWindow):
             self.select_action.triggered.disconnect()
             self.select_action.triggered.connect(self.editor.selectAll)
 
-            self.bold_action.triggered.disconnect()
+            # self.bold_action.triggered.disconnect()
+            # self.italic_action.triggered.disconnect()
+            # self.underline_action.triggered.disconnect()
             self.bold_action.toggled.connect(lambda x: self.editor.setFontWeight(QFont.Bold if x else QFont.Normal))
-
-            self.italic_action.triggered.disconnect()
             self.italic_action.toggled.connect(self.editor.setFontItalic)
-
-            self.underline_action.triggered.disconnect()
             self.underline_action.toggled.connect(self.editor.setFontUnderline)
 
             self.alignl_action.triggered.disconnect()
@@ -458,6 +501,22 @@ class MainWindow(QMainWindow):
 
             self.alignj_action.triggered.disconnect()
             self.alignj_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
+
+            # def new_setCurrentFont(self, font=None):
+            #     print('NUUUU update font fuction..')
+            #     # Set the new font as the default for the document
+            #     font.setPointSize(self.current_font_size)
+            #     self.editor.document().setDefaultFont(font)
+
+            # setattr(self.__class__, 'setCurrentFont', new_setCurrentFont)
+            # self.update_font = lambda font: (print(f"LALA currentFontChanged signal emit lambda function: Font changed to: {font.family()}"), self.setCurrentFont(font))
+            # try:
+            #     self.fonts_manager.currentFontChanged.disconnect()  # Disconnects all connections
+            # except TypeError:
+            #     pass  # No existing connections to disconnect
+            # self.fonts_manager.currentFontChanged.connect(self.update_font)
+            
+
 
 
     def open_vedic_character_window(self):
@@ -597,15 +656,15 @@ class MainWindow(QMainWindow):
         self.editor.setLineWrapMode( 1 if self.editor.lineWrapMode() == 0 else 0 )
 
     def on_sanskrit_button_clicked(self):
-        #TODO change_editor()
+        self.swapTextEdit('Sanskrit')
         self.editor.english_bypass =False 
         print("Sanskrit button clicked")
-        from mappings.mappings_v1 import C,V,v,misc
+        # from mappings.mappings_hindi import C,V,v,misc
 
-        self.editor.C = C #consonents
-        self.editor.V = V #Independent Vowels
-        self.editor.v = v #dependent vowels
-        self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
         
         if self.radio_button_pressed not in ['marathi','hindi','sanskrit']:
             self.fonts_manager.currentFontChanged.disconnect(self.update_font)
@@ -620,13 +679,14 @@ class MainWindow(QMainWindow):
         
 
     def on_marathi_button_clicked(self):
+        self.swapTextEdit('Marathi')
         self.editor.english_bypass =False
         print("Marathi button clicked")
-        from mappings.mappings_marathi_v1 import C,V,v,misc
-        self.editor.C = C #consonents
-        self.editor.V = V #Independent Vowels
-        self.editor.v = v #dependent vowels
-        self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        # from mappings.mappings_marathi import C,V,v,misc
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
 
         if self.radio_button_pressed not in ['marathi','hindi','sanskrit']:
             self.fonts_manager.currentFontChanged.disconnect(self.update_font)
@@ -640,16 +700,21 @@ class MainWindow(QMainWindow):
 
             
     def on_hindi_button_clicked(self):
+        self.swapTextEdit('Hindi')
         self.editor.english_bypass =False
         print("Hindi button clicked")
-        from mappings.mappings_v1 import C,V,v,misc
-        self.editor.C = C #consonents
-        self.editor.V = V #Independent Vowels
-        self.editor.v = v #dependent vowels
-        self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        # from mappings.mappings_hindi import C,V,v,misc
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
 
         if self.radio_button_pressed not in ['marathi','hindi','sanskrit']:
-            self.fonts_manager.currentFontChanged.disconnect(self.update_font)
+            try:
+                self.fonts_manager.currentFontChanged.disconnect(self.update_font)
+            except TypeError:
+                print("not connected")
+                pass
             self.fonts_manager.clear()
             self.fonts_manager.addItems(self.devanagari_fonts)
             self.fonts_manager.currentFontChanged.connect(self.update_font)
@@ -661,13 +726,14 @@ class MainWindow(QMainWindow):
         
 
     def on_vedic_button_clicked(self):
+        self.swapTextEdit('Sanskrit')
         self.editor.english_bypass =False
         print("Vedic button clicked")
-        from mappings.mappings_v1 import C,V,v,misc
-        self.editor.C = C #consonents
-        self.editor.V = V #Independent Vowels
-        self.editor.v = v #dependent vowels
-        self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        # from mappings.mappings_hindi import C,V,v,misc
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
     
         #self.fonts_manager.currentFontChanged.disconnect(self.update_font)
         self.fonts_manager.clear()
@@ -701,11 +767,11 @@ class MainWindow(QMainWindow):
 
         self.editor.english_bypass =False
         print("Indus button clicked")
-        from mappings.mappings_indus import C,V,v,misc
-        self.editor.C = C #consonents
-        self.editor.V = V #Independent Vowels
-        self.editor.v = v #dependent vowels
-        self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        # from mappings.mappings_indus import C,V,v,misc
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
 
         
 
@@ -787,13 +853,13 @@ class MainWindow(QMainWindow):
         return False
     
     def transliterate(self): 
-        transliterated_text = transliterate.process('Devanagari', self.transliteration_scheme, self.editor.toPlainText())
+        transliterated_text = transliterate.process('Devanagari', self.transliteration_scheme, self.editor.toPlainText(), pre_options=['RemoveSchwaHindi'])#
         print(transliterated_text)
         self.transliterated_text.setText(transliterated_text)
 
 
     def reverse_transliterate(self): 
-        _text = transliterate.process(self.transliteration_scheme,'Devanagari', self.transliterated_text.toPlainText())
+        _text = transliterate.process(self.transliteration_scheme,'Devanagari', self.transliterated_text.toPlainText(), pre_options=['HindiMarathiRomanLoCFix'], post_options=['RemoveSchwaHindi'])
         self.label_trackAllKeys.setText('   ')#str
         self.makeNextVowelDependent = False
         self.use2CharsVowelNext = True
