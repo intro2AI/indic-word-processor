@@ -380,7 +380,6 @@ class MainWindow(QMainWindow):
 
 
     def swapTextEdit(self,language):
-
             if language == 'Indus':
                 new_editor = TextEdit_Indus(self.label_trackAllKeys)
                 #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
@@ -397,7 +396,7 @@ class MainWindow(QMainWindow):
             if language == 'Hindi':
                 new_editor = TextEdit_Hindi(self.label_trackAllKeys)
                 #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
-                _font = QFont('Shobhika') # apply font from the new language
+                _font = QFont(self.fonts_manager.currentText()) # apply font from the new language
                 
                 _font.setPointSize(self.current_font_size)
                 new_editor.setFont(_font)
@@ -411,7 +410,7 @@ class MainWindow(QMainWindow):
             if language == 'Marathi':
                 new_editor = TextEdit_Marathi(self.label_trackAllKeys)
                 #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
-                _font = QFont('Shobhika') # apply font from the new language
+                _font = QFont(self.fonts_manager.currentText()) # apply font from the new language
                 
                 _font.setPointSize(self.current_font_size)
                 new_editor.setFont(_font)
@@ -425,7 +424,7 @@ class MainWindow(QMainWindow):
             if language == 'Sanskrit':
                 new_editor = TextEdit_Sanskrit(self.label_trackAllKeys)
                 #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
-                _font = QFont('Shobhika') # apply font from the new language
+                _font = QFont(self.fonts_manager.currentText()) # apply font from the new language
                 
                 _font.setPointSize(self.current_font_size)
                 new_editor.setFont(_font)
@@ -451,7 +450,7 @@ class MainWindow(QMainWindow):
 
 
 
-            #new_editor.setHtml(html_content)
+            #new_editor.setHtml(html_content) OR
             text = self.strip_font_styles(html_content)
             new_editor.document().setHtml(text)
                 

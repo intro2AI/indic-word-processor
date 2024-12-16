@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[r'C:\Users\intro\miniconda3\envs\word_processor_new\libs',
              r'C:\Users\intro\miniconda3\envs\word_processor_new\Lib\site-packages'],
     binaries=[],
-    datas=[('fonts', 'fonts'),('C:\\Users\\intro\\OneDrive\\Documents\\CAI-FLAME\\word_processor\\images\\logo.ico', '.')],
+    datas=[('fonts', 'fonts'),('C:\\Users\\intro\\OneDrive\\Documents\\CAI-FLAME\\indic-word-processor\\images\\logo.ico', '.')],
     hiddenimports=['aksharamukha'],
     hookspath=[],
     hooksconfig={},
@@ -32,7 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon="C:\\Users\\intro\\OneDrive\\Documents\\CAI-FLAME\\word_processor\\images\\logo.ico",
+    icon="C:\\Users\\intro\\OneDrive\\Documents\\CAI-FLAME\\indic-word-processor\\images\\logo.ico",
 )
 coll = COLLECT(
     exe,

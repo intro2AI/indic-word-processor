@@ -434,13 +434,13 @@ class TextEdit_Hindi(QTextEdit):
             # SINGLE LETTER CONSONENT GETS LAST PRECIDENCE
             elif key_1 in self.C:
                 
-                if key_3[-1] =='r': #no auto halant
-                        self.insertPlainText(self.C[key_1])
-                else:
-                    #adding consonent + auto halant
-                    self.insertPlainText(self.C[key_1])
-                    self.insertPlainText(self.misc['q'])
-                    self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
+                # if key_3[-1] =='r': #no auto halant
+                #         self.insertPlainText(self.C[key_1])
+                # else:
+                #adding consonent + auto halant
+                self.insertPlainText(self.C[key_1])
+                self.insertPlainText(self.misc['q'])
+                self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
 
                 self.makeNextVowelDependent = True
                 self.use2CharsVowelNext = True # every consonent resets this FLAG aai, taai vs m'ou'
@@ -1018,13 +1018,13 @@ class TextEdit_Marathi(QTextEdit):
             # SINGLE LETTER CONSONENT GETS LAST PRECIDENCE
             elif key_1 in self.C:
                 
-                if key_3[-1] =='r': #no auto halant
-                        self.insertPlainText(self.C[key_1])
-                else:
-                    #adding consonent + auto halant
-                    self.insertPlainText(self.C[key_1])
-                    self.insertPlainText(self.misc['q'])
-                    self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
+                # if key_3[-1] =='r': #no auto halant
+                #         self.insertPlainText(self.C[key_1])
+                # else:
+                #adding consonent + auto halant
+                self.insertPlainText(self.C[key_1])
+                self.insertPlainText(self.misc['q'])
+                self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
 
                 self.makeNextVowelDependent = True
                 self.use2CharsVowelNext = True # every consonent resets this FLAG aai, taai vs m'ou'
@@ -1602,13 +1602,13 @@ class TextEdit_Sanskrit(QTextEdit):
             # SINGLE LETTER CONSONENT GETS LAST PRECIDENCE
             elif key_1 in self.C:
                 
-                if key_3[-1] =='r': #no auto halant
-                        self.insertPlainText(self.C[key_1])
-                else:
-                    #adding consonent + auto halant
-                    self.insertPlainText(self.C[key_1])
-                    self.insertPlainText(self.misc['q'])
-                    self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
+                # if key_3[-1] =='r': #no auto halant
+                #         self.insertPlainText(self.C[key_1])
+                # else:
+                #adding consonent + auto halant
+                self.insertPlainText(self.C[key_1])
+                self.insertPlainText(self.misc['q'])
+                self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
 
                 self.makeNextVowelDependent = True
                 self.use2CharsVowelNext = True # every consonent resets this FLAG aai, taai vs m'ou'
@@ -2188,13 +2188,13 @@ class TextEdit_Indus(QTextEdit):
 
             # SINGLE LETTER CONSONENT GETS LAST PRECIDENCE
             elif key_1 in self.C:
-                if key_3[-1] =='r': #no auto halant
-                        self.insertPlainText(self.C[key_1])
-                else:
-                    #adding consonent + auto halant
-                    self.insertPlainText(self.C[key_1])
-                    self.insertPlainText(self.misc['q'])
-                    self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
+                # if key_3[-1] =='r': #no auto halant
+                #         self.insertPlainText(self.C[key_1])
+                # else:
+                #adding consonent + auto halant
+                self.insertPlainText(self.C[key_1])
+                self.insertPlainText(self.misc['q'])
+                self.label_trackAllKeys.setText(self.label_trackAllKeys.text()+'q')
 
                 self.makeNextVowelDependent = True
                 self.use2CharsVowelNext = True # every consonent resets this FLAG aai, taai vs m'ou'
