@@ -110,6 +110,10 @@ class MainWindow(QMainWindow):
         self.manipuri_button.setFont(QFont("NotoSansMeeteiMayek-Bold", 10))  # Increase font size to 14
         self.manipuri_button.clicked.connect(self.on_manipuri_button_clicked)
 
+        self.prakrit_button = QRadioButton('प्राकृत  ')
+        self.prakrit_button.setFont(QFont("Mangal", 10))  # Increase font size to 14
+        self.prakrit_button.clicked.connect(self.on_prakrit_button_clicked)
+
 
 
         # Create the combobox
@@ -132,6 +136,7 @@ class MainWindow(QMainWindow):
         top_button_layout.addWidget(self.hindi_button)
         top_button_layout.addWidget(self.marathi_button)
         top_button_layout.addWidget(self.sanskrit_button)
+        top_button_layout.addWidget(self.prakrit_button)
         top_button_layout.addWidget(self.vedic_button)
         top_button_layout.addWidget(self.indus_button)
         top_button_layout.addWidget(self.manipuri_button)
@@ -433,6 +438,19 @@ class MainWindow(QMainWindow):
                 old_editor = self.editor  # or however you reference your current editor
                 # Copy content with formatting using HTML
                 html_content = old_editor.toHtml()
+
+            if language == 'Prakrit':
+                new_editor = TextEdit_Prakrit(self.label_trackAllKeys)
+                #_font = QFont('ida-left-to-right-pre-release-0-9-1') # apply font from the new language
+                _font = QFont(self.fonts_manager.currentText()) # apply font from the new language
+                
+                _font.setPointSize(self.current_font_size)
+                new_editor.setFont(_font)
+
+                # Get old editor reference
+                old_editor = self.editor  # or however you reference your current editor
+                # Copy content with formatting using HTML
+                html_content = old_editor.toHtml()
   
                 
             if language == 'Vedic':
@@ -675,6 +693,28 @@ class MainWindow(QMainWindow):
         self.radio_button_pressed = 'sanskrit'
         self.editor.current_script = 'sanskrit'
 
+
+    def on_prakrit_button_clicked(self):
+        self.swapTextEdit('Prakrit')
+        self.editor.english_bypass =False 
+        print("Prakrit button clicked")
+        # from mappings.mappings_hindi import C,V,v,misc
+
+        # self.editor.C = C #consonents
+        # self.editor.V = V #Independent Vowels
+        # self.editor.v = v #dependent vowels
+        # self.editor.misc = misc #nukta, halant, numbers and misc symbols
+        
+        if self.radio_button_pressed not in ['marathi','hindi','sanskrit','prakrit']:
+            self.fonts_manager.currentFontChanged.disconnect(self.update_font)
+            self.fonts_manager.clear()
+            self.fonts_manager.addItems(self.devanagari_fonts)
+            self.fonts_manager.currentFontChanged.connect(self.update_font)
+            self.find_and_select_font('Shobhika')
+
+        self.radio_button_pressed = 'prakrit'
+        self.editor.current_script = 'prakrit'
+
         
 
     def on_marathi_button_clicked(self):
@@ -687,7 +727,7 @@ class MainWindow(QMainWindow):
         # self.editor.v = v #dependent vowels
         # self.editor.misc = misc #nukta, halant, numbers and misc symbols
 
-        if self.radio_button_pressed not in ['marathi','hindi','sanskrit']:
+        if self.radio_button_pressed not in ['marathi','hindi','sanskrit','prakrit']:
             self.fonts_manager.currentFontChanged.disconnect(self.update_font)
             self.fonts_manager.clear()
             self.fonts_manager.addItems(self.devanagari_fonts)
@@ -708,7 +748,7 @@ class MainWindow(QMainWindow):
         # self.editor.v = v #dependent vowels
         # self.editor.misc = misc #nukta, halant, numbers and misc symbols
 
-        if self.radio_button_pressed not in ['marathi','hindi','sanskrit']:
+        if self.radio_button_pressed not in ['marathi','hindi','sanskrit','prakrit']:
             try:
                 self.fonts_manager.currentFontChanged.disconnect(self.update_font)
             except TypeError:
