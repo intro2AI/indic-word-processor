@@ -1,8 +1,0 @@
-- Multiple scripts (Devanagari/meity/indus) cannot be rendered in the same document yet
-  (Currently supporting rendering only one script per document)
-
-- Marathi, Hindi, Sanskrit mappings need to be refined and tested
-
-- Meity and Indus mappings are Incomplete
-
-- Currently no support for multiple fonts in one document
